@@ -1,20 +1,30 @@
-import React from 'react'
-import Button from '../UI/Button'
+import React, { useContext } from "react";
+import CartContext from "../../store/cart-context";
+import Button from "../UI/Button";
+import classes from "./Items.module.css";
 
-const Items = props => {
-    const price = `$${props.data.price}`
+const Items = (props) => {
+  const cartCtx = useContext(CartContext);
+  const price = `$${props.data.price}`;
+
+  const addItemHandler = () => {
+    cartCtx.addItem({ ...props.data, quantity: 1 });
+  };
+
   return (
-    <li>
+    <li key={props.data.id} id={props.id}>
+      <div className={classes.container}>
         <div>
-        <h1>{props.data.title}</h1>
-            <img src={props.data.imageUrl} alt ="items images "/>
+          <h3>{props.data.title}</h3>
+          <img src={props.data.imageUrl} alt="items images" />
         </div>
-        <div>
-            <span>{price}</span>
-            <Button />
+        <div className={classes.wrapper}>
+          <span>{price}</span>
+          <Button onClick={addItemHandler}>Add TO CART</Button>
         </div>
+      </div>
     </li>
-  )
-}
+  );
+};
 
-export default Items
+export default Items;
